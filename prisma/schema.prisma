@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  session   Session?
+  company   Company[]
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  userId       Int      @unique
+  user         User     @relation(fields: [userId], references: [id])
+  access_token String
+
+  @@map("sessions")
+}
+
+model Company {
+  id          Int           @id @default(autoincrement())
+  name        String
+  CNPJ        String        @unique
+  description String
+  createdAt   DateTime      @default(now())
+  userId      Int           @unique
+  user        User          @relation(fields: [userId], references: [id])
+  responsible Responsible[]
+  local       Local?
+
+  @@map("companies")
+}
+
+model Local {
+  id          Int           @id @default(autoincrement())
+  name        String
+  address     String
+  createdAt   DateTime      @default(now())
+  responsible Responsible[]
+  companyId   Int           @unique
+  company     Company       @relation(fields: [companyId], references: [id])
+
+  @@map("locals")
+}
+
+model Responsible {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String   @unique
+  address   String
+  isMain    Boolean  @unique @default(true)
+  createdAt DateTime @default(now())
+  companyId Int
+  company   Company  @relation(fields: [companyId], references: [id])
+  localId   Int
+  local     Local    @relation(fields: [localId], references: [id])
+
+  @@map("responsibles")
+}
