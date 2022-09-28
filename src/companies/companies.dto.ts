@@ -1,4 +1,4 @@
-export type CompanyDTO = {
+export class CompanyDTO {
     id?: number;
     name: string;
     CNPJ: string;

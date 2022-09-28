@@ -11,7 +11,7 @@ import {
 import createCompanySchema from 'src/schemas/createCompanySchema';
 import { AuthorizedRequest } from 'src/utils/authorized-request';
 import { JoiValidationPipe } from 'src/utils/joiValidationPipe';
-import { JwtAuthGuard } from 'src/utils/jwt/jwt.guard';
+import { JwtAuthGuard } from 'src/utils/strategies/jwt/jwt.guard';
 import { CompanyDTO } from './companies.dto';
 import { CompaniesService } from './companies.service';
 
