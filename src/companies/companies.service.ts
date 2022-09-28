@@ -10,15 +10,7 @@ export class CompaniesService {
     await this.companiesRepository.createCompany(companyDTO);
   }
 
-  findAll() {
-    return `This action returns all companies`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  async getCompaniesByUserId(userId: number) {
+    return await this.companiesRepository.findByUserId(userId);
   }
 }

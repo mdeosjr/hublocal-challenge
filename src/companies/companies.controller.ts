@@ -7,6 +7,7 @@ import {
   Request,
   Body,
   UsePipes,
+  Get,
 } from '@nestjs/common';
 import createCompanySchema from 'src/schemas/createCompanySchema';
 import { AuthorizedRequest } from 'src/utils/authorized-request';
@@ -25,5 +26,12 @@ export class CompaniesController {
   @HttpCode(HttpStatus.CREATED)
   create(@Request() @Body() req: AuthorizedRequest, company: CompanyDTO) {
     return this.companiesService.create({ ...company, userId: req.userId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  fetchCompanies(@Request() req: AuthorizedRequest) {
+    return this.companiesService.getCompaniesByUserId(req.userId);
   }
 }
