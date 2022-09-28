@@ -10,7 +10,7 @@ import { JwtStrategy } from 'src/utils/jwt/jwt.strategy';
 import { BcryptProvider } from '../utils/bcrypt/bcrypt.provider';
 import { BcryptClassProvider } from '../utils/bcrypt/bcrypt-class.provider';
 import { UsersRepository } from 'src/users/repositories/users.repository';
-import { UserDatabaseRepository } from 'src/users/repositories/users-database.repository';
+import { UsersDatabaseRepository } from 'src/users/repositories/users-database.repository';
 import { PrismaService } from 'src/database/prisma.service';
 
 @Module({
@@ -29,7 +29,7 @@ import { PrismaService } from 'src/database/prisma.service';
     LocalStrategy,
     JwtStrategy,
     { provide: BcryptProvider, useClass: BcryptClassProvider },
-    { provide: UsersRepository, useClass: UserDatabaseRepository },
+    { provide: UsersRepository, useClass: UsersDatabaseRepository },
   ],
   exports: [AuthService],
 })

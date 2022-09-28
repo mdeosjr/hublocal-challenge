@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { PrismaService } from 'src/database/prisma.service';
-import { UserDatabaseRepository } from './repositories/users-database.repository';
+import { UsersDatabaseRepository } from './repositories/users-database.repository';
 import { BcryptProvider } from 'src/utils/bcrypt/bcrypt.provider';
 import { BcryptClassProvider } from '../utils/bcrypt/bcrypt-class.provider';
 import { UsersRepository } from './repositories/users.repository';
@@ -12,7 +12,7 @@ import { UsersRepository } from './repositories/users.repository';
   providers: [
     UsersService,
     PrismaService,
-    { provide: UsersRepository, useClass: UserDatabaseRepository },
+    { provide: UsersRepository, useClass: UsersDatabaseRepository },
     { provide: BcryptProvider, useClass: BcryptClassProvider },
   ],
   exports: [UsersService],

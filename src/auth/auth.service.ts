@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserDTO } from 'src/users/users.dto';
 import { AuthDTO } from './auth.dto';
@@ -13,23 +13,23 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(loginDto: AuthDTO): Promise<UserDTO | null> {
-    const { email, password } = loginDto;
+  async validateUser(loginDTO: AuthDTO): Promise<UserDTO | null> {
+    const { email, password } = loginDTO;
 
     const user = await this.usersRepository.findByEmail(email);
-    if (!user) return null;
+    if (!user) throw new UnauthorizedException('User does not exist');
 
-    const isPayloadComparable = await this.bcrypt.comparePassword(
+    const isPasswordComparable = await this.bcrypt.comparePassword(
       password,
       user.password,
     );
 
-    if (isPayloadComparable) {
+    if (isPasswordComparable) {
       delete user.password;
       return user;
     }
 
-    return null;
+    return null
   }
 
   async login(user: UserDTO) {

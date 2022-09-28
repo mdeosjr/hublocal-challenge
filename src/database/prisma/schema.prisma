@@ -35,10 +35,10 @@ model Company {
   CNPJ        String        @unique
   description String
   createdAt   DateTime      @default(now())
-  userId      Int           @unique
+  userId      Int           
   user        User          @relation(fields: [userId], references: [id])
   responsible Responsible[]
-  local       Local?
+  local       Local[]
 
   @@map("companies")
 }
@@ -49,7 +49,7 @@ model Local {
   address     String
   createdAt   DateTime      @default(now())
   responsible Responsible[]
-  companyId   Int           @unique
+  companyId   Int           
   company     Company       @relation(fields: [companyId], references: [id])
 
   @@map("locals")
