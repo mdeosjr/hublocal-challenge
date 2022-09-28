@@ -49,7 +49,7 @@ model Local {
   address     String
   createdAt   DateTime      @default(now())
   responsible Responsible[]
-  companyId   Int           
+  companyId   Int           @unique
   company     Company       @relation(fields: [companyId], references: [id])
 
   @@map("locals")

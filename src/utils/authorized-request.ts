@@ -1,4 +1,6 @@
 export interface AuthorizedRequest {
-  userId: number;
-  email: string;
+  user: {
+    userId: number;
+    email: string;
+  };
 }

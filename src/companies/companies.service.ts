@@ -11,6 +11,8 @@ export class CompaniesService {
   }
 
   async getCompaniesByUserId(userId: number) {
-    return await this.companiesRepository.findByUserId(userId);
+    const companies = await this.companiesRepository.findByUserId(userId);
+
+    return companies;
   }
 }

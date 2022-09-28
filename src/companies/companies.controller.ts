@@ -24,14 +24,14 @@ export class CompaniesController {
   @UsePipes(new JoiValidationPipe(createCompanySchema))
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Request() @Body() req: AuthorizedRequest, company: CompanyDTO) {
-    return this.companiesService.create({ ...company, userId: req.userId });
+  async create(@Request() req: AuthorizedRequest, @Body() company: CompanyDTO) {
+    await this.companiesService.create({ ...company, userId: req.user.userId });
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
   @HttpCode(HttpStatus.OK)
-  fetchCompanies(@Request() req: AuthorizedRequest) {
-    return this.companiesService.getCompaniesByUserId(req.userId);
+  async fetchCompanies(@Request() req: AuthorizedRequest) {
+    return this.companiesService.getCompaniesByUserId(req.user.userId);
   }
 }
