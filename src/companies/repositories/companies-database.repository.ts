@@ -12,12 +12,30 @@ export class CompaniesDatabaseRepository implements CompaniesRepository {
       where: {
         userId,
       },
+      include: {
+        responsibles: true,
+      }
     });
   }
 
   async createCompany(data: CompanyDTO): Promise<void> {
-    await this.prisma.company.create({
-      data,
+    await this.prisma.$transaction(async (prisma) => {
+      let { responsibles, ...newCompany } = data;
+
+      const company = await prisma.company.create({
+        data: newCompany,
+      });
+
+      responsibles = data.responsibles.map(
+        (responsible) => ({
+          ...responsible,
+          companyId: company.id,
+        }),
+      );
+
+      await prisma.responsible.createMany({
+        data: responsibles,
+      });
     });
   }
 }

@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -30,42 +31,42 @@ model Session {
 }
 
 model Company {
-  id          Int           @id @default(autoincrement())
-  name        String
-  CNPJ        String        @unique
-  description String
-  createdAt   DateTime      @default(now())
-  userId      Int           
-  user        User          @relation(fields: [userId], references: [id])
-  responsible Responsible[]
-  local       Local[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  CNPJ         String        @unique
+  description  String
+  createdAt    DateTime      @default(now())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  responsibles Responsibles[]
+  local        Local[]
 
   @@map("companies")
 }
 
 model Local {
-  id          Int           @id @default(autoincrement())
-  name        String
-  address     String
-  createdAt   DateTime      @default(now())
-  responsible Responsible[]
-  companyId   Int           @unique
-  company     Company       @relation(fields: [companyId], references: [id])
+  id           Int           @id @default(autoincrement())
+  name         String
+  address      String
+  createdAt    DateTime      @default(now())
+  responsibles Responsibles[]
+  companyId    Int           @unique
+  company      Company       @relation(fields: [companyId], references: [id])
 
   @@map("locals")
 }
 
-model Responsible {
+model Responsibles {
   id        Int      @id @default(autoincrement())
   name      String
   phone     String   @unique
   address   String
   isMain    Boolean  @unique @default(true)
   createdAt DateTime @default(now())
-  companyId Int
-  company   Company  @relation(fields: [companyId], references: [id])
-  localId   Int
-  local     Local    @relation(fields: [localId], references: [id])
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id])
+  localId   Int?
+  local     Local?   @relation(fields: [localId], references: [id])
 
   @@map("responsibles")
 }
