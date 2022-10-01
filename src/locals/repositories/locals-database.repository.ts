@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { LocalDTO } from '../locals.dto';
 import { LocalsRepository } from './locals.repository';
@@ -16,8 +16,25 @@ export class LocalsDatabaseRepository implements LocalsRepository {
   }
 
   async createLocal(data: LocalDTO): Promise<void> {
-    await this.prisma.local.create({
-      data,
-    });
+    try {
+      await this.prisma.$transaction(async (prisma) => {
+        let { responsibles, ...newLocal } = data;
+
+        const local = await prisma.local.create({
+          data: newLocal,
+        });
+
+        responsibles = data.responsibles.map((responsible) => ({
+          ...responsible,
+          companyId: local.id,
+        }));
+
+        await prisma.responsibles.createMany({
+          data: responsibles,
+        });
+      });
+    } catch (e) {
+      throw new UnprocessableEntityException(e);
+    }
   }
 }

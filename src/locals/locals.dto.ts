@@ -1,7 +1,10 @@
+import { ResponsibleDTO } from "src/companies/responsible.dto";
+
 export class LocalDTO {
-    id?: number;
-    address: string;
-    name: string;
-    companyId: number;
-    createdAt?: Date;
+  id?: number;
+  address: string;
+  name: string;
+  companyId: number;
+  createdAt?: Date;
+  responsibles?: ResponsibleDTO[];
 }

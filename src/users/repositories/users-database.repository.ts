@@ -15,6 +15,14 @@ export class UsersDatabaseRepository implements UsersRepository {
     });
   }
 
+  async findById(id: number): Promise<UserDTO> {
+    return await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
   async createUser(data: UserDTO): Promise<void> {
     await this.prisma.user.create({
       data,
