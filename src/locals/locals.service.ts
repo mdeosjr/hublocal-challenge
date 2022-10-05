@@ -10,7 +10,7 @@ export class LocalsService {
     await this.localsRepository.createLocal(localDTO);
   }
 
-  findAll() {
-    return `This action returns all locals`;
+  async findAll() {
+    return await this.localsRepository.getLocals();
   }
 }

@@ -37,4 +37,8 @@ export class LocalsDatabaseRepository implements LocalsRepository {
       throw new UnprocessableEntityException(e);
     }
   }
+
+  async getLocals(): Promise<LocalDTO[]> {
+    return await this.prisma.local.findMany({})
+  }
 }
