@@ -9,8 +9,7 @@ const createCompanySchema = joi.object<CompanyDTO>({
     joi.object({
       name: joi.string().required(),
       phone: joi.string().required(),
-      address: joi.string().required(),
-      isMain: joi.boolean().required()
+      address: joi.string().required()
     }).required(),
   ),
 });
