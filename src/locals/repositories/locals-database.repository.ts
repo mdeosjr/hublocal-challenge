@@ -26,7 +26,7 @@ export class LocalsDatabaseRepository implements LocalsRepository {
 
         responsibles = data.responsibles.map((responsible) => ({
           ...responsible,
-          companyId: local.id,
+          localId: local.id,
         }));
 
         await prisma.responsibles.createMany({
@@ -42,6 +42,9 @@ export class LocalsDatabaseRepository implements LocalsRepository {
     return await this.prisma.local.findMany({
       where: {
         userId
+      },
+      include: {
+        responsibles: true
       }
     })
   }

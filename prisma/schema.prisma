@@ -51,7 +51,7 @@ model Local {
   address      String
   createdAt    DateTime       @default(now())
   responsibles Responsibles[]
-  companyId    Int            @unique
+  companyId    Int            
   company      Company        @relation(fields: [companyId], references: [id])
   userId       Int
   user         User           @relation(fields: [userId], references: [id])
