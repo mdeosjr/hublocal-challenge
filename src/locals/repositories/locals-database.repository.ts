@@ -38,7 +38,11 @@ export class LocalsDatabaseRepository implements LocalsRepository {
     }
   }
 
-  async getLocals(): Promise<LocalDTO[]> {
-    return await this.prisma.local.findMany({})
+  async getLocals(userId: number): Promise<LocalDTO[]> {
+    return await this.prisma.local.findMany({
+      where: {
+        userId
+      }
+    })
   }
 }

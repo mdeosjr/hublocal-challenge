@@ -5,6 +5,7 @@ export class LocalDTO {
   address: string;
   name: string;
   companyId: number;
+  userId: number;
   createdAt?: Date;
   responsibles?: ResponsibleDTO[];
 }

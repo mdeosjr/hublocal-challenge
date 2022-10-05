@@ -16,6 +16,7 @@ model User {
   createdAt DateTime  @default(now())
   session   Session?
   company   Company[]
+  local     Local[]
 
   @@map("users")
 }
@@ -52,6 +53,8 @@ model Local {
   responsibles Responsibles[]
   companyId    Int            @unique
   company      Company        @relation(fields: [companyId], references: [id])
+  userId       Int
+  user         User           @relation(fields: [userId], references: [id])
 
   @@map("locals")
 }
